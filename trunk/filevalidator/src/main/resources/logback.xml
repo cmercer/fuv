@@ -1,0 +1,30 @@
+<configuration debug="false">
+
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<encoder>
+			<pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+		</encoder>
+		<File>logs/file-validator.log</File>
+	</appender>
+
+	<!-- appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>logs/file-validator.log</file>
+
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+			</Pattern>
+		</layout>
+	</appender-->
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<root level="debug">
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

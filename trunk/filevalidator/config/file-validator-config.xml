@@ -1,0 +1,11 @@
+<file-validator-config>
+
+	<application-name>Test</application-name>
+	<archive-recursion-depth>7</archive-recursion-depth>
+	
+	<modules>
+		<test-module>
+			<num>1</num>
+		</test-module>
+	</modules>
+</file-validator-config>
