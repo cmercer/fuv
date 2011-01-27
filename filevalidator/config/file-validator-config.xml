@@ -4,6 +4,9 @@
 	<archive-recursion-depth>7</archive-recursion-depth>
 	
 	<modules>
+		<test-module scanInnerFiles="false">
+			<num>1</num>
+		</test-module>
 		<test-module>
 			<num>1</num>
 		</test-module>
