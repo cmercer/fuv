@@ -14,4 +14,7 @@ public interface Module {
 	
 	/** Return a unique name for the module */
 	public String getName();
+	
+	/** Whether the module should run on the inner files too or only on the external file (in case of an archive) */ 
+	public boolean scanInnerFiles();
 }
