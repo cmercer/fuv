@@ -4,11 +4,22 @@
 	<archive-recursion-depth>7</archive-recursion-depth>
 	
 	<modules>
+	
+		<!-- TODO test - remove -->
 		<test-module scanInnerFiles="false">
 			<num>1</num>
 		</test-module>
+		
+		<!-- TODO test - remove -->
 		<test-module>
 			<num>1</num>
 		</test-module>
+
+		<file-name-module>
+			<max-file-name-length>50</max-file-name-length>			
+		</file-name-module>
+		
+		
+		
 	</modules>
 </file-validator-config>
