@@ -18,11 +18,14 @@ public class Test {
 		FileValidator fv = FileValidatorImpl.getInstance();
 		
 		File f = File.createTempFile("abc", "abc");
-		//System.out.println("fv says : " + fv.validate(f));
+		System.out.println("fv says : " + fv.validate(f));
 		
-		for (Module m : ConfigManager.getInstance().getConfigBean().getModules()) { 
-			System.out.println(m.getName() + " - " + m.scanInnerFiles());
-		}
+		File f2 = File.createTempFile("def", "abc.doc");
+		System.out.println("fv says : " + fv.validate(f2));
+		
+		//for (Module m : ConfigManager.getInstance().getConfigBean().getModules()) { 
+		//	System.out.println(m.getName() + " - scan inner files: " + m.scanInnerFiles());
+		//}
 		
 		
 		

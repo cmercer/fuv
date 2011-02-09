@@ -1,5 +1,6 @@
 package com.amdocs.filevalidator.modules;
 
+import java.io.File;
 import java.io.InputStream;
 
 /**
@@ -9,8 +10,11 @@ import java.io.InputStream;
  */
 public interface Module {
 
-	/** Validate an input stream */
-	public boolean validate(InputStream in);
+	/** Validate an input stream 
+	 * @param fileName simple name of the file
+	 * @param filePath full path and name of the file
+	 * */
+	public boolean validate(InputStream in, String filePath, String fileName);
 	
 	/** Return a unique name for the module */
 	public String getName();

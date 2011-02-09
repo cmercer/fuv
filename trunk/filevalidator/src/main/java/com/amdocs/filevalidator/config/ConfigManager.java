@@ -6,6 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import com.amdocs.filevalidator.modules.FileNameModule;
 import com.amdocs.filevalidator.modules.TestModule;
 
 /**
@@ -49,7 +50,7 @@ public class ConfigManager {
 		Unmarshaller um = null;
 		try { 
 			// initialize JAXB
-			JAXBContext jc = JAXBContext.newInstance(ConfigBean.class, TestModule.class);
+			JAXBContext jc = JAXBContext.newInstance(ConfigBean.class, TestModule.class, FileNameModule.class);
 			um = jc.createUnmarshaller();
 		
 			// unmarshal the config file
