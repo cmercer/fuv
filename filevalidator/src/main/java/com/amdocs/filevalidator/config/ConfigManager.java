@@ -50,7 +50,12 @@ public class ConfigManager {
 		Unmarshaller um = null;
 		try { 
 			// initialize JAXB
-			JAXBContext jc = JAXBContext.newInstance(ConfigBean.class, TestModule.class, FileNameModule.class);
+			JAXBContext jc = JAXBContext.newInstance(
+					ConfigBean.class, 
+					CharStrip.class, 
+					TestModule.class, 
+					FileNameModule.class);
+			
 			um = jc.createUnmarshaller();
 		
 			// unmarshal the config file
