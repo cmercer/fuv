@@ -31,9 +31,9 @@ public class TestModule extends ModuleImpl {
 	private int num;
 	
 	@Override
-	public boolean validate(InputStream in) {
+	public boolean validate(InputStream in, String filePath, String fileName){
 		logger.warn("something is wrong...");
-		return num>5;
+		return num>5;		
 	}
 
 	
