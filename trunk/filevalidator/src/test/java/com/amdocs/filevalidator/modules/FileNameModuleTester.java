@@ -5,18 +5,24 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.amdocs.filevalidator.config.ConfigManager;
 import com.amdocs.filevalidator.core.FileValidator;
 import com.amdocs.filevalidator.core.FileValidatorImpl;
 
-
+/**
+ * Tests for the file name module
+ * @author zach, rotem
+ *
+ */
 public class FileNameModuleTester extends TestCase {
 	
 	protected FileValidator fv;
 	protected FileNameModule module;
 	
+	@Before
 	protected void setUp() {
 		
 		fv = FileValidatorImpl.getInstance();

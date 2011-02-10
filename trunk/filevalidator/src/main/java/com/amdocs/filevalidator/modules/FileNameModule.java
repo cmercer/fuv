@@ -54,6 +54,8 @@ public class FileNameModule extends ModuleImpl {
 			fileName = fileName.substring(0, extension);
 		}
 		
+		// check file length
+		logger.debug("File name length (excluding extension) is " + fileName.length() +". Maximum length allowed: " + maxFileNameLength);
 		if (fileName.length() > maxFileNameLength) {
 			logger.error("File name length is " + fileName.length() +". Maximum length allowed: " + maxFileNameLength);
 			return false;
@@ -69,6 +71,7 @@ public class FileNameModule extends ModuleImpl {
 		}
 		
 		// check with white list
+		logger.debug("Allowed chars: " + allowedStrip);
 		char[] chars = fileName.toCharArray();		
 		for (Character c : chars) {
 			if (!allowedStrip.contains(String.valueOf(c))) {

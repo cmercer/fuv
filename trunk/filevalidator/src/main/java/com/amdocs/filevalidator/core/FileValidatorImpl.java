@@ -2,7 +2,6 @@ package com.amdocs.filevalidator.core;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.amdocs.filevalidator.config.ConfigBean;
 import com.amdocs.filevalidator.config.ConfigManager;
 import com.amdocs.filevalidator.modules.Module;
+import com.amdocs.filevalidator.securityutilities.FileNameGenerator;
 
 /**
  * FUV implementation of the FileValidator
@@ -53,6 +53,10 @@ public class FileValidatorImpl implements FileValidator {
 		}
 		
 		return true;
+	}
+	
+	public FileNameGenerator getFileNameGenerator(){
+		return config.getFileNameGenerator();
 	}
 
 }

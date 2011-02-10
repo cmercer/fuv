@@ -4,14 +4,13 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.amdocs.filevalidator.modules.Module;
 import com.amdocs.filevalidator.modules.ModuleImpl;
+import com.amdocs.filevalidator.securityutilities.FileNameGenerator;
 
 /**
  * Main config bean.
@@ -41,6 +40,8 @@ public class ConfigBean {
 	@XmlElementRef(type=CharStrip.class)
 	private List<CharStrip> charStrips;
 	
+	@XmlElementRef(type=FileNameGenerator.class)
+	private FileNameGenerator fileNameGenerator;
 	
 	
 	public String getAppName() {
@@ -73,6 +74,14 @@ public class ConfigBean {
 
 	public List<CharStrip> getCharStrips() {
 		return charStrips;
+	}
+
+	public void setFileNameGenerator(FileNameGenerator fileNameGenerator) {
+		this.fileNameGenerator = fileNameGenerator;
+	}
+
+	public FileNameGenerator getFileNameGenerator() {
+		return fileNameGenerator;
 	}
 	
 }
