@@ -36,7 +36,10 @@ public class ConfigBean {
 	@XmlElementRef(type=ModuleImpl.class)
 	private List<ModuleImpl> modules;
 
-	
+	/** List of configured character strips */
+	@XmlElementWrapper(name="char-strips")
+	@XmlElementRef(type=CharStrip.class)
+	private List<CharStrip> charStrips;
 	
 	
 	
@@ -62,6 +65,14 @@ public class ConfigBean {
 
 	public void setModules(List<ModuleImpl> modules) {
 		this.modules = modules;
+	}
+
+	public void setCharStrips(List<CharStrip> charStrips) {
+		this.charStrips = charStrips;
+	}
+
+	public List<CharStrip> getCharStrips() {
+		return charStrips;
 	}
 	
 }

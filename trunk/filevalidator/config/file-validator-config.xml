@@ -16,10 +16,30 @@
 		</test-module>
 
 		<file-name-module>
-			<max-file-name-length>50</max-file-name-length>			
+			<max-file-name-length>50</max-file-name-length>
+			<allowedCharStrips>D C O</allowedCharStrips>						
 		</file-name-module>
-		
-		
-		
+					
 	</modules>
+	
+	
+	<char-strips>
+	
+		<!-- Digits -->
+		<char-strip stripKey="D">
+			<strip>0123456789</strip>
+		</char-strip>
+		
+		<!-- characters -->
+		<char-strip stripKey="C">
+			<strip>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</strip>		
+		</char-strip>
+		
+		<!-- Others -->
+		<char-strip stripKey="O">
+			<strip>_-)(</strip>		
+		</char-strip>
+		
+	</char-strips>
+	
 </file-validator-config>
