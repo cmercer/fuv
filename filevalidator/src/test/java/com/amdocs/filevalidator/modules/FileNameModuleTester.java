@@ -41,8 +41,6 @@ public class FileNameModuleTester extends TestCase {
 		// put the file name module as the only module
 		ConfigManager.getInstance().getConfigBean().getModules().clear();
 		ConfigManager.getInstance().getConfigBean().getModules().add(module);
-		
-		System.out.println("Module name: " + module.getName());
 	}
 
 	@Test
