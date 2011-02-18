@@ -43,6 +43,10 @@ public class ConfigBean {
 	@XmlElementRef(type=FileNameGenerator.class)
 	private FileNameGenerator fileNameGenerator;
 	
+	/** Max file size for size bounded input stream */
+	@XmlElement(name="max-file-size")
+	private long maxFileSize;
+	
 	
 	public String getAppName() {
 		return appName;
@@ -82,6 +86,14 @@ public class ConfigBean {
 
 	public FileNameGenerator getFileNameGenerator() {
 		return fileNameGenerator;
+	}
+
+	public void setMaxFileSize(long maxFileSize) {
+		this.maxFileSize = maxFileSize;
+	}
+
+	public long getMaxFileSize() {
+		return maxFileSize;
 	}
 	
 }

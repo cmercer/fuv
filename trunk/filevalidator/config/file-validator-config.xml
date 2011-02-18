@@ -35,6 +35,9 @@
 		</name-pattern>		
 	</file-name-generator>
 	
+	
+	<max-file-size>15</max-file-size>
+	
 	<char-strips>
 	
 		<!-- Digits -->
