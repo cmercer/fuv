@@ -12,6 +12,11 @@ import org.junit.Test;
 
 import com.amdocs.filevalidator.exceptions.FileSizeException;
 
+/**
+ * Test for SizeBoundedInputStream
+ * @author zach, rotem
+ *
+ */
 public class SizeBoundedInputStreamTester extends TestCase {
 
 	@Before
@@ -31,6 +36,7 @@ public class SizeBoundedInputStreamTester extends TestCase {
 			writer.close();
 			System.out.println("File size:" + f1.length());
 
+			// valid file
 			SizeBoundedInputStream is = new SizeBoundedInputStream(new FileInputStream(f1));
 			int c;
 			int count = 0;
@@ -43,6 +49,7 @@ public class SizeBoundedInputStreamTester extends TestCase {
 			System.out.println("SizeBoundedInputStream. File size:" + count);
 
 
+			// valid file with buffered input stream
 			BufferedInputStream is2 = new BufferedInputStream(new SizeBoundedInputStream(new FileInputStream(f1)));
 			count = 0;
 			while ((c=is2.read()) >=0) {
@@ -83,6 +90,7 @@ public class SizeBoundedInputStreamTester extends TestCase {
 			System.out.println("File size:" + f1.length());
 
 
+			// big file. Exception is thrown after 15 chars
 			is = new SizeBoundedInputStream(new FileInputStream(f1));
 			count = 0;			
 			try {
@@ -100,6 +108,8 @@ public class SizeBoundedInputStreamTester extends TestCase {
 
 			}
 
+			// big file with buffered input stream. 
+			// Exception is thrown in the first read (the buffer is bigger than 15 chars)
 			is2 = new BufferedInputStream(new SizeBoundedInputStream(new FileInputStream(f1)));
 			count = 0;
 			try {				
