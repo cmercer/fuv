@@ -15,10 +15,17 @@
 			<num>1</num>
 		</test-module>
 
+		<!-- File name module -->
 		<file-name-module>
 			<max-file-name-length>50</max-file-name-length>
 			<allowedCharStrips>D C O</allowedCharStrips>						
 		</file-name-module>
+		
+		<!-- Anti Virus module -->
+		<anti-virus-module scanInnerFiles="false">
+			<anti-virus-path>C:\tmp_rotem\aaa.bat</anti-virus-path>
+			<success-rc>0</success-rc>									
+		</anti-virus-module>
 					
 	</modules>
 	
