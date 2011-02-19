@@ -6,6 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import com.amdocs.filevalidator.modules.AntiVirusModule;
 import com.amdocs.filevalidator.modules.FileNameModule;
 import com.amdocs.filevalidator.modules.TestModule;
 
@@ -54,7 +55,9 @@ public class ConfigManager {
 					ConfigBean.class, 
 					CharStrip.class, 
 					TestModule.class, 
-					FileNameModule.class);
+					FileNameModule.class,
+					AntiVirusModule.class
+			);
 			
 			um = jc.createUnmarshaller();
 		
