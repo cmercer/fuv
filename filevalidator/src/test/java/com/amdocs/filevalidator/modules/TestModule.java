@@ -18,20 +18,12 @@ public class TestModule extends ModuleImpl {
 	/** Logger */
 	@XmlTransient
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	
-	private static final String MODULE_NAME = "TestModule";
-	@Override
-	public String getName() { 
-		return MODULE_NAME;
-	}
-	
 	
 	@XmlElement(name="num")
 	private int num;
 	
 	@Override
-	public boolean validate(InputStream in, String filePath, String fileName){
+	public boolean validate(InputStream in, String filePath) {
 		logger.warn("something is wrong...");
 		return num>5;		
 	}

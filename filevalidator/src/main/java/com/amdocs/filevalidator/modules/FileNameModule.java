@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.amdocs.filevalidator.config.CharStrip;
+import com.amdocs.filevalidator.utils.FileNameUtils;
 
 /**
  * Validate file name (only the simple name without the extension):
@@ -26,8 +27,6 @@ import com.amdocs.filevalidator.config.CharStrip;
 @XmlRootElement(name="file-name-module")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FileNameModule extends ModuleImpl {
-	
-	private static final String MODULE_NAME = "FileNameModule";
 	
 	/** Logger */
 	@XmlTransient
@@ -46,7 +45,8 @@ public class FileNameModule extends ModuleImpl {
 	private String allowedStrip;
 
 	@Override
-	public boolean validate(InputStream in, String filePath, String fileName){
+	public boolean validate(InputStream in, String filePath) {
+		String fileName = FileNameUtils.extractFileName(filePath);
 		
 		// remove extension (if exists)
 		int extension = fileName.lastIndexOf('.');
@@ -63,11 +63,15 @@ public class FileNameModule extends ModuleImpl {
 		
 		// create one united allowed strip
 		if (allowedStrip == null) {
-			StringBuffer sb = new StringBuffer();
-			for (CharStrip cs : allowedCharStrips) {
-				sb.append(cs.getStrip());
+			synchronized (this) {
+				if (allowedStrip == null) { 
+					StringBuffer sb = new StringBuffer();
+					for (CharStrip cs : allowedCharStrips) {
+						sb.append(cs.getStrip());
+					}
+					allowedStrip = sb.toString();
+				}
 			}
-			allowedStrip = sb.toString();
 		}
 		
 		// check with white list
@@ -81,11 +85,6 @@ public class FileNameModule extends ModuleImpl {
 		}		
 		
 		return true;
-	}
-
-	@Override
-	public String getName() { 
-		return MODULE_NAME;
 	}
 
 }

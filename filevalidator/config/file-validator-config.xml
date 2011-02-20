@@ -26,6 +26,12 @@
 			<anti-virus-path>C:\tmp_rotem\aaa.bat</anti-virus-path>
 			<success-rc>0</success-rc>									
 		</anti-virus-module>
+		
+		<!-- File type module -->
+		<file-type-module>
+			<allowed-types>word jpg application/x-gzip</allowed-types>
+			<force-ext-check/>
+		</file-type-module>
 					
 	</modules>
 	
@@ -63,5 +69,26 @@
 		</char-strip>
 		
 	</char-strips>
+	
+	
+	<!--  TODO - once we have a set of files we should run them through 'tika' and create real types collections -->
+	<!--  TODO : what happens if some type (for example 'application/x-tika/ooxml') appears in a couple of different collections with different exts? -->
+	<types-collections>
+		<types-collection name="word">
+			<type allowed-exts="doc">application/msword</type>
+			<type allowed-exts="doc">application/x-tika-msoffice</type>
+			<type allowed-exts="docx">application/vnd.openxmlformats-officedocument.wordprocessingml.document</type>
+			<type allowed-exts="docx">application/x-tika-ooxml</type>
+		</types-collection>
+
+		<types-collection name="pdf">
+			<type allowed-exts="pdf">application/pdf</type>
+		</types-collection>
+		
+		<types-collection name="JPG">
+			<type allowed-exts="jpg,JPEG">image/jpeg</type>
+		</types-collection>
+		
+	</types-collections>
 	
 </file-validator-config>

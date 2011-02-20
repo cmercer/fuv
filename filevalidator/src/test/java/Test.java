@@ -1,9 +1,7 @@
 import java.io.File;
 
-import com.amdocs.filevalidator.config.ConfigManager;
 import com.amdocs.filevalidator.core.FileValidator;
 import com.amdocs.filevalidator.core.FileValidatorImpl;
-import com.amdocs.filevalidator.modules.Module;
 
 
 public class Test {
