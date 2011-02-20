@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AntiVirusModule extends ModuleImpl {
 
-	private static final String MODULE_NAME = "AntiVirusModule";
 	
 	/** Logger */
 	@XmlTransient
@@ -38,8 +37,8 @@ public class AntiVirusModule extends ModuleImpl {
 
 
 	@Override
-	public boolean validate(InputStream in, String filePath, String fileName) {
-				
+	public boolean validate(InputStream in, String filePath) {
+		
 		String command = antiVirusPath + " " + filePath;
 		
 		Runtime run = Runtime.getRuntime();		
@@ -65,11 +64,6 @@ public class AntiVirusModule extends ModuleImpl {
 		}
 
 		return true;
-	}
-
-	@Override
-	public String getName() {
-		return MODULE_NAME;
 	}
 
 }

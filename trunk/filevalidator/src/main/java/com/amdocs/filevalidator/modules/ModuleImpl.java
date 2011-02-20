@@ -14,7 +14,11 @@ public abstract class ModuleImpl implements Module {
 	private boolean scanInnerFiles = true;
 
 	@Override
-	public boolean scanInnerFiles() { 
+	public final boolean scanInnerFiles() { 
 		return this.scanInnerFiles;
+	}
+	
+	public final String getName() { 
+		return this.getClass().getName();
 	}
 }

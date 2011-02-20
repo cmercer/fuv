@@ -47,7 +47,7 @@ public class FileValidatorImpl implements FileValidator {
 		// iterate all modules
 		for (Module module : config.getModules()) {
 			logger.debug("Validating module {}", module.getName());
-			if (!module.validate(is, file.getAbsolutePath(), file.getName())) { 
+			if (!module.validate(is, file.getAbsolutePath())) { 
 				return false;
 			}
 		}
