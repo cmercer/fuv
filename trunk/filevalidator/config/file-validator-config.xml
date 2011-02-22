@@ -23,7 +23,7 @@
 		
 		<!-- Anti Virus module -->
 		<anti-virus-module scanInnerFiles="false">
-			<anti-virus-path>C:\tmp_rotem\aaa.bat</anti-virus-path>
+			<anti-virus-path>bin/av_wrapper.sh</anti-virus-path>
 			<success-rc>0</success-rc>									
 		</anti-virus-module>
 		

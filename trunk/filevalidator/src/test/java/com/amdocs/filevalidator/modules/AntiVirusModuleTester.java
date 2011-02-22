@@ -1,6 +1,7 @@
 package com.amdocs.filevalidator.modules;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.junit.Before;
@@ -22,6 +23,8 @@ public class AntiVirusModuleTester extends TestCase {
 	
 	protected FileValidator fv;
 	protected AntiVirusModule module;
+	
+	private static final String EICAR_FILE_CONTENT = "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*";
 	
 	@Before
 	protected void setUp() {
@@ -50,12 +53,15 @@ public class AntiVirusModuleTester extends TestCase {
 	}
 
 	@Test
-	public void testValidate() {
+	public void testValidateNoVirus() {
 		
 		File f = null;
 		try {
-			f = File.createTempFile("abc", "abc");
-			assertTrue("File without viruses", fv.validate(f));
+			f = File.createTempFile("av-tester", null);
+			FileWriter fw = new FileWriter(f);
+			fw.write("NO VIRUS FOR YOU !");
+			fw.close();
+			assertTrue("File shouldn't contain viruses", fv.validate(f));
 		} catch (IOException e) {
 			if (f != null && f.exists()) f.delete();
 			e.printStackTrace();
@@ -63,4 +69,23 @@ public class AntiVirusModuleTester extends TestCase {
 		}
 	}
 
+
+	@Test
+	public void testValidateEicarVirus() {
+		
+		File f = null;
+		try {
+			f = File.createTempFile("av-tester", null);
+			FileWriter fw = new FileWriter(f);
+			fw.write(EICAR_FILE_CONTENT);
+			fw.close();
+			assertFalse("File should contain a virus", fv.validate(f));
+		} catch (IOException e) {
+			if (f != null && f.exists()) f.delete();
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	
 }
