@@ -10,8 +10,6 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.amdocs.filevalidator.exceptions.FileSizeException;
-
 /**
  * Test for SizeBoundedInputStream
  * @author zach, rotem
@@ -44,18 +42,21 @@ public class SizeBoundedInputStreamTester extends TestCase {
 				count++;
 				System.out.print((char)c);
 			}
+			assertFalse(is.hasReachedLimit());
 			is.close();
 			System.out.println();
 			System.out.println("SizeBoundedInputStream. File size:" + count);
 
 
 			// valid file with buffered input stream
-			BufferedInputStream is2 = new BufferedInputStream(new SizeBoundedInputStream(new FileInputStream(f1)));
+			is = new SizeBoundedInputStream(new FileInputStream(f1));
+			BufferedInputStream is2 = new BufferedInputStream(is);
 			count = 0;
 			while ((c=is2.read()) >=0) {
 				System.out.print((char)c);
 				count++;
 			}
+			assertFalse(is.hasReachedLimit());
 			is2.close();
 			System.out.println();
 			System.out.println("BufferedInputStream. File size:" + count);
@@ -93,38 +94,25 @@ public class SizeBoundedInputStreamTester extends TestCase {
 			// big file. Exception is thrown after 15 chars
 			is = new SizeBoundedInputStream(new FileInputStream(f1));
 			count = 0;			
-			try {
-				while ((c=is.read()) >=0) {
-					System.out.print((char)c);
-					count++;
-				}
-				is.close();				
-				fail("Didnt throw exception!");
-			} catch (FileSizeException e) {			
-				if (is != null) is.close();
-				System.out.println();
-				System.out.println("SizeBoundedInputStream. Current size:" + count);
-				assertEquals(count, 15);
+			while ((c=is.read()) >=0) {
+				count++;
+			}						
+			assertEquals(count, 15);
+			assertTrue(is.hasReachedLimit());
+			is.close();	
 
-			}
 
 			// big file with buffered input stream. 
 			// Exception is thrown in the first read (the buffer is bigger than 15 chars)
-			is2 = new BufferedInputStream(new SizeBoundedInputStream(new FileInputStream(f1)));
-			count = 0;
-			try {				
-				while ((c=is2.read()) >=0) {
-					System.out.print((char)c);
-					count++;
-				}
-				is2.close();				
-				fail("Didnt throw exception!");
-			} catch (FileSizeException e) {	
-				if (is2 != null) is2.close();	
-				System.out.println();
-				System.out.println("BufferedInputStream. Current size:" + count);
-//				assertEquals(count, 15);
+			is = new SizeBoundedInputStream(new FileInputStream(f1));
+			is2 = new BufferedInputStream(is);
+			count = 0;			
+			while ((c=is2.read()) >=0) {	
+				count++;
 			}
+			assertEquals(count, 15);
+			assertTrue(is.hasReachedLimit());
+			is2.close();				
 
 			f1.delete();
 			
