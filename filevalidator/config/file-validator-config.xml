@@ -5,16 +5,6 @@
 	
 	<modules>
 	
-		<!-- TODO test - remove -->
-		<test-module scanInnerFiles="false">
-			<num>1</num>
-		</test-module>
-		
-		<!-- TODO test - remove -->
-		<test-module>
-			<num>1</num>
-		</test-module>
-
 		<!-- File name module -->
 		<file-name-module>
 			<max-file-name-length>50</max-file-name-length>
@@ -29,7 +19,7 @@
 		
 		<!-- File type module -->
 		<file-type-module>
-			<allowed-types>word jpg application/x-gzip</allowed-types>
+			<allowed-types>word jpg application/x-gzip application/zip text/plain</allowed-types>
 			<force-ext-check/>
 		</file-type-module>
 					

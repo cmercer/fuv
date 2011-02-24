@@ -70,7 +70,7 @@ public class FileTypeModule extends ModuleImpl {
 		metadata.set(Metadata.RESOURCE_NAME_KEY, fileName);
 		Parser parser = new AutoDetectParser();
 		try {
-			parser.parse(new FileInputStream(new File(filePath)), contenthandler, metadata, new ParseContext());
+			parser.parse(in, contenthandler, metadata, new ParseContext());
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error while determining mime-type from input stream. {}", e.getMessage(), e);

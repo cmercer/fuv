@@ -1,7 +1,6 @@
 package com.amdocs.filevalidator.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.File;
 
 public class FileNameUtils {
 
@@ -20,16 +19,9 @@ public class FileNameUtils {
 	
 	/**
 	 * Extracts the filename from a file path (which can include or not a directory before)
-	 */
-	private static final Pattern EXTRACT_FILE_NAME = Pattern.compile("(.*/)?([^\\/]+)");
-	public static String extractFileName(String filePath) { 
-		Matcher m = EXTRACT_FILE_NAME.matcher(filePath);
-		
-		if (!m.matches() || m.groupCount()!=2) { 
-			return null;
-		} else { 
-			return m.group(2);
-		}
+	 */	
+	public static String extractFileName(String filePath) {		
+		return filePath.substring(filePath.lastIndexOf(File.separator) + File.separator.length());
 	}
 	
 }

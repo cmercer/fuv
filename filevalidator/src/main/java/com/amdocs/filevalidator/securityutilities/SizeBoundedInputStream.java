@@ -29,6 +29,11 @@ public class SizeBoundedInputStream extends InputStream {
 		originalIunputStream = is;		
 		maxSize = ConfigManager.getInstance().getConfigBean().getMaxFileSize();
 	}
+	
+	public SizeBoundedInputStream(InputStream is, long maxSize) {
+		originalIunputStream = is;		
+		this.maxSize = maxSize;
+	}
 
 	@Override
 	public int read() throws IOException {
