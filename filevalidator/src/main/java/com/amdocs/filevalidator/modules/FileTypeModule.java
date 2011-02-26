@@ -2,7 +2,7 @@ package com.amdocs.filevalidator.modules;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -56,10 +56,9 @@ public class FileTypeModule extends ModuleImpl {
 	
 	
 	@Override
-	public boolean validate(InputStream in, String filePath) {
-		String fileName = FileNameUtils.extractFileName(filePath);
+	public boolean validate(String filePath, String simpleFileName) {		
 		
-		logger.debug("FileTypeModule was called for {}", fileName);
+		logger.debug("FileTypeModule was called for {}", simpleFileName);
 		
 		// check initialization
 		if (this.allowedTypes == null) initializeAllowedTypes();
@@ -67,14 +66,24 @@ public class FileTypeModule extends ModuleImpl {
 		
 		ContentHandlerDecorator contenthandler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
-		metadata.set(Metadata.RESOURCE_NAME_KEY, fileName);
+		metadata.set(Metadata.RESOURCE_NAME_KEY, simpleFileName);
 		Parser parser = new AutoDetectParser();
+		FileInputStream in = null;
 		try {
+			in = new FileInputStream(new File(filePath));
 			parser.parse(in, contenthandler, metadata, new ParseContext());
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error while determining mime-type from input stream. {}", e.getMessage(), e);
 			return false;
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					logger.error("Error while closing file. {}", e.getMessage(), e);
+				}
+			}
 		}
 		
 		String contentType = metadata.get(Metadata.CONTENT_TYPE);
@@ -89,7 +98,7 @@ public class FileTypeModule extends ModuleImpl {
 
 			return 	!extCheck || 
 					( 	this.allowedTypes.get(contentType)==null ||   // null means we accept all extensions for this type 
-						this.allowedTypes.get(contentType).contains(FileNameUtils.extractFileExtension(fileName).toLowerCase()) );
+						this.allowedTypes.get(contentType).contains(FileNameUtils.extractFileExtension(simpleFileName).toLowerCase()) );
 			
 		} else { 
 			return false;

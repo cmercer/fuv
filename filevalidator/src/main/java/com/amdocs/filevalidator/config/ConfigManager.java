@@ -9,7 +9,7 @@ import javax.xml.bind.Unmarshaller;
 import com.amdocs.filevalidator.modules.AntiVirusModule;
 import com.amdocs.filevalidator.modules.FileNameModule;
 import com.amdocs.filevalidator.modules.FileTypeModule;
-import com.amdocs.filevalidator.modules.TestModule;
+
 
 /**
  * Manages the application-specific configuration.
@@ -55,7 +55,6 @@ public class ConfigManager {
 			JAXBContext jc = JAXBContext.newInstance(
 					ConfigBean.class, 
 					CharStrip.class, 
-					TestModule.class, 
 					FileNameModule.class,
 					AntiVirusModule.class,
 					FileTypeModule.class
