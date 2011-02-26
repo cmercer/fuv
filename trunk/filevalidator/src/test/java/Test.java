@@ -36,11 +36,11 @@ public class Test {
 		FileValidator fv = FileValidatorImpl.getInstance();
 
 //		File f3 = new File("C:\\tmp_rotem\\tmp\\test_file.tar");
-		File f3 = new File("C:\\tmp_rotem\\tmp\\dir_tar.tar");
-//		File f3 = new File("C:\\tmp_rotem\\tmp\\out.zip");
+//		File f3 = new File("C:\\tmp_rotem\\tmp\\dir_tar.tar");
+		File f3 = new File("C:\\tmp_rotem\\tmp\\out.zip");
 		
-//		System.out.println(fv.validate(f3));
-//		System.exit(0);
+		System.out.println(fv.validate(f3));
+		System.exit(0);
 		
 		FileInputStream fis = new FileInputStream(f3);
 				

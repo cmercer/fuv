@@ -1,6 +1,8 @@
 <file-validator-config>
 
 	<application-name>Test</application-name>
+	
+	<!-- Starting from 0 (0 = archive/compressed file are not allowed) -->
 	<archive-recursion-depth>7</archive-recursion-depth>
 	
 	<modules>
@@ -19,7 +21,7 @@
 		
 		<!-- File type module -->
 		<file-type-module>
-			<allowed-types>word jpg application/x-gzip application/zip text/plain</allowed-types>
+			<allowed-types>word jpg application/x-gzip application/x-gtar application/zip text/plain application/x-bzip2</allowed-types>
 			<force-ext-check/>
 		</file-type-module>
 					

@@ -1,7 +1,6 @@
 package com.amdocs.filevalidator.modules;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,7 +36,7 @@ public class AntiVirusModule extends ModuleImpl {
 
 
 	@Override
-	public boolean validate(InputStream in, String filePath) {
+	public boolean validate(String filePath, String simpleFileName) {
 		
 		String command = antiVirusPath + " " + filePath;
 		

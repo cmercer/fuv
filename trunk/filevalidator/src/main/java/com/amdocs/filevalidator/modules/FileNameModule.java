@@ -1,6 +1,5 @@
 package com.amdocs.filevalidator.modules;
 
-import java.io.InputStream;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -45,19 +44,18 @@ public class FileNameModule extends ModuleImpl {
 	private String allowedStrip;
 
 	@Override
-	public boolean validate(InputStream in, String filePath) {
-		String fileName = FileNameUtils.extractFileName(filePath);
+	public boolean validate(String filePath, String simpleFileName) {		
 		
 		// remove extension (if exists)
-		int extension = fileName.lastIndexOf('.');
+		int extension = simpleFileName.lastIndexOf('.');
 		if (extension >= 0) {
-			fileName = fileName.substring(0, extension);
+			simpleFileName = simpleFileName.substring(0, extension);
 		}
 		
 		// check file length
-		logger.debug("File name length (excluding extension) is " + fileName.length() +". Maximum length allowed: " + maxFileNameLength);
-		if (fileName.length() > maxFileNameLength) {
-			logger.error("File name length is " + fileName.length() +". Maximum length allowed: " + maxFileNameLength);
+		logger.debug("File name length (excluding extension) is " + simpleFileName.length() +". Maximum length allowed: " + maxFileNameLength);
+		if (simpleFileName.length() > maxFileNameLength) {
+			logger.error("File name length is " + simpleFileName.length() +". Maximum length allowed: " + maxFileNameLength);
 			return false;
 		}
 		
@@ -76,7 +74,7 @@ public class FileNameModule extends ModuleImpl {
 		
 		// check with white list
 		logger.debug("Allowed chars: " + allowedStrip);
-		char[] chars = fileName.toCharArray();		
+		char[] chars = simpleFileName.toCharArray();		
 		for (Character c : chars) {
 			if (!allowedStrip.contains(String.valueOf(c))) {
 				logger.error("Invalid char in file name: " + c +". Allowed chars: " + allowedStrip);
