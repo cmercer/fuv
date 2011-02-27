@@ -9,6 +9,7 @@ import javax.xml.bind.Unmarshaller;
 import com.amdocs.filevalidator.modules.AntiVirusModule;
 import com.amdocs.filevalidator.modules.FileNameModule;
 import com.amdocs.filevalidator.modules.FileTypeModule;
+import com.amdocs.filevalidator.modules.UnixFilePermissionsModule;
 
 
 /**
@@ -57,7 +58,8 @@ public class ConfigManager {
 					CharStrip.class, 
 					FileNameModule.class,
 					AntiVirusModule.class,
-					FileTypeModule.class
+					FileTypeModule.class,
+					UnixFilePermissionsModule.class
 			);
 			
 			um = jc.createUnmarshaller();

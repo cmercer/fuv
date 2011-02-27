@@ -2,7 +2,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Scanner;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
@@ -15,12 +14,15 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.amdocs.filevalidator.config.ConfigBean;
+import com.amdocs.filevalidator.config.ConfigManager;
 import com.amdocs.filevalidator.core.FileValidator;
 import com.amdocs.filevalidator.core.FileValidatorImpl;
+import com.amdocs.filevalidator.modules.ModuleImpl;
+import com.amdocs.filevalidator.modules.UnixFilePermissionsModule;
 import com.amdocs.filevalidator.securityutilities.SizeBoundedInputStream;
 
 
@@ -35,11 +37,23 @@ public class Test {
 		
 		FileValidator fv = FileValidatorImpl.getInstance();
 
+		ConfigBean config = ConfigManager.getInstance().getConfigBean();
+		for (ModuleImpl module : config.getModules()) { 
+			if (module instanceof UnixFilePermissionsModule) { 
+				for (int i=1 ; i<6 ; i++) {
+					File f = new File("/tmp/file" + i);
+					boolean res = module.validate(f.getAbsolutePath(), f.getName());
+					System.out.println(f.getName() + " = " + res);
+				}
+				
+			}
+		}
+		
 //		File f3 = new File("C:\\tmp_rotem\\tmp\\test_file.tar");
 //		File f3 = new File("C:\\tmp_rotem\\tmp\\dir_tar.tar");
 		File f3 = new File("C:\\tmp_rotem\\tmp\\out.zip");
-		
-		System.out.println(fv.validate(f3));
+//		
+//		System.out.println(fv.validate(f3));
 		System.exit(0);
 		
 		FileInputStream fis = new FileInputStream(f3);
