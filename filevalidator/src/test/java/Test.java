@@ -35,6 +35,11 @@ public class Test {
 	 */
 	public static void main(String[] args) throws Exception {
 		
+		
+		for (File f : File.listRoots()) { 
+			System.out.println(f);
+		}
+		
 		FileValidator fv = FileValidatorImpl.getInstance();
 
 		ConfigBean config = ConfigManager.getInstance().getConfigBean();
