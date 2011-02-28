@@ -26,7 +26,7 @@
 		</file-type-module>
 
 		<!-- File permissions module-->	
-		<unix-file-permissions-module>
+		<unix-file-permissions-module scanInnerFiles="false">
 			<user-max-permissions>rwx</user-max-permissions>
 			<group-max-permissions>r-x</group-max-permissions>
 			<all-max-permissions>r-x</all-max-permissions>
