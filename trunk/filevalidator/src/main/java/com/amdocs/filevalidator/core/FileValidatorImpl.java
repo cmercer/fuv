@@ -80,9 +80,8 @@ public class FileValidatorImpl implements FileValidator {
 		boolean result;
 		try {
 			result = validateArchiveFiles(file, 0, temporaryDir);
-		} finally {
-			// TODO make sure the dir is empty in order to delete it
-			temporaryDir.delete();
+		} finally {		
+			deleteDir(temporaryDir);
 		}		
 		return result;
 	}
@@ -407,13 +406,33 @@ public class FileValidatorImpl implements FileValidator {
 	 * @param out target
 	 * @throws IOException
 	 */
-	public void copyInputStream(InputStream in, OutputStream out) throws IOException {
+	private static void copyInputStream(InputStream in, OutputStream out) throws IOException {
 		byte[] buffer = new byte[1024];
 		int len;
 
 		while((len = in.read(buffer)) >= 0)
 			out.write(buffer, 0, len);
 	}
+
+	/**
+	 * Deletes all files and sub directories under directory.
+	 * @param dir The directory to delete
+	 * @return true if all deletions were successful
+	 */
+	private static boolean deleteDir(File dir) {    
+		if (dir.isDirectory()) {        
+			String[] children = dir.list();        
+			for (int i=0; i<children.length; i++) {            
+				boolean success = deleteDir(new File(dir, children[i]));			           
+				if (!success) {                
+					return false;            
+				}        
+			}    
+		}    
+		// The directory is now empty so delete it    
+		return dir.delete();
+	}
+
 
 	@Override
 	public FileNameGenerator getFileNameGenerator(){
