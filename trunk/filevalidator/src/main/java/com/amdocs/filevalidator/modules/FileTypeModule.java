@@ -119,10 +119,10 @@ public class FileTypeModule extends ModuleImpl {
 			Set<TypeExtsPair> typesSet = config.getTypesForCollection(userType);
 			if (typesSet == null) {
 				// user gave a type
-				tmp.put(userType, null);
+				tmp.put(userType.toLowerCase(), null);
 			} else { 
 				for (TypeExtsPair p : typesSet) { 
-					tmp.put(p.getType(), p.getAllowedExts());
+					tmp.put(p.getType().toLowerCase(), p.getAllowedExts());
 				}
 			}
 		}
