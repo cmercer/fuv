@@ -53,7 +53,7 @@ public class UnixFilePermissionsModule extends ModuleImpl {
 	
 	
 	@Override
-	public boolean validate(String filePath, String simpleFileName) {
+	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename) {
 		
 		if (this.allowedPerms == null) initializePerms();
 		

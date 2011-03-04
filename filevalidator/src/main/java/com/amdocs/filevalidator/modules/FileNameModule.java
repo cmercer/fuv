@@ -44,7 +44,12 @@ public class FileNameModule extends ModuleImpl {
 	private String allowedStrip;
 
 	@Override
-	public boolean validate(String filePath, String simpleFileName) {		
+	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename) {
+		
+		if (isGeneratedFilename) {
+			logger.info("Skipping filename validation for generated filename");
+			return true;
+		}
 		
 		// remove extension (if exists)
 		int extension = simpleFileName.lastIndexOf('.');

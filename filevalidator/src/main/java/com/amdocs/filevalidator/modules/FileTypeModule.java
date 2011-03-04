@@ -56,7 +56,7 @@ public class FileTypeModule extends ModuleImpl {
 	
 	
 	@Override
-	public boolean validate(String filePath, String simpleFileName) {		
+	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename) {		
 		
 		logger.debug("FileTypeModule was called for {}", simpleFileName);
 		
