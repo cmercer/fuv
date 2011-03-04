@@ -58,72 +58,72 @@ public class FileTypeModuleTest {
 	
 	@Test
 	public void testAllowedWordCheckExt() throws Exception { 
-		Assert.assertEquals(true,  moduleAllowedWordCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG)));
-		Assert.assertEquals(true,  moduleAllowedWordCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG)));
+		Assert.assertEquals(true,  moduleAllowedWordCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG), false));
+		Assert.assertEquals(true,  moduleAllowedWordCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG), false));
 	}
 	
 	@Test
 	public void testAllowedWordNotCheckExt() throws Exception {
-		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX)));
-		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG)));
-		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX)));
-		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG)));
+		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX), false));
+		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG), false));
+		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX), false));
+		Assert.assertEquals(true,  moduleAllowedWordNotCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG), false));
 	}
 	
 	
 	@Test
 	public void testAllowedWordPdfCheckExt() throws Exception { 
-		Assert.assertEquals(true,  moduleAllowedWordPdfCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX)));
-		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG)));
-		Assert.assertEquals(true,  moduleAllowedWordPdfCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX)));
-		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE)));
-		Assert.assertEquals(true,  moduleAllowedWordPdfCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF)));
-		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG)));
+		Assert.assertEquals(true,  moduleAllowedWordPdfCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX), false));
+		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG), false));
+		Assert.assertEquals(true,  moduleAllowedWordPdfCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX), false));
+		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE), false));
+		Assert.assertEquals(true,  moduleAllowedWordPdfCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF), false));
+		Assert.assertEquals(false, moduleAllowedWordPdfCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG), false));
 	}
 	
 	@Test
 	public void testAllowedWordPdfNotCheckExt() throws Exception {
-		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX)));
-		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG)));
-		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX)));
-		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordPdfNotCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE)));
-		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF)));
-		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG)));
+		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX), false));
+		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG), false));
+		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX), false));
+		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordPdfNotCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE), false));
+		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF), false));
+		Assert.assertEquals(true,  moduleAllowedWordPdfNotCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedWordCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG), false));
 	}
 
 	@Test
 	public void testAllowedPdfJpgNotCheckExt() throws Exception {
-		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX)));
-		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG)));
-		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX)));
-		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG)));
-		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE)));
-		Assert.assertEquals(true,  moduleAllowedPdfJpgCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF)));
-		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG)));
-		Assert.assertEquals(true,  moduleAllowedPdfJpgCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG)));
-		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG)));
-		Assert.assertEquals(true,  moduleAllowedPdfJpgCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG)));
+		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_DOCX,extractFileName(WORDFILE_DOCX), false));
+		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_WRONG,extractFileName(WORDFILE_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_OLD_DOCX,extractFileName(WORDFILE_OLD_DOCX), false));
+		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(WORDFILE_OLD_WRONG,extractFileName(WORDFILE_OLD_WRONG), false));
+		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(TEXTFILE,extractFileName(TEXTFILE), false));
+		Assert.assertEquals(true,  moduleAllowedPdfJpgCheckExt.validate(PDFFILE_PDF,extractFileName(PDFFILE_PDF), false));
+		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(PDFFILE_WRONG,extractFileName(PDFFILE_WRONG), false));
+		Assert.assertEquals(true,  moduleAllowedPdfJpgCheckExt.validate(JPGFILE_JPG,extractFileName(JPGFILE_JPG), false));
+		Assert.assertEquals(false, moduleAllowedPdfJpgCheckExt.validate(JPGFILE_WRONG,extractFileName(JPGFILE_WRONG), false));
+		Assert.assertEquals(true,  moduleAllowedPdfJpgCheckExt.validate(JPGFILE_JPEG,extractFileName(JPGFILE_JPEG), false));
 	}
 }

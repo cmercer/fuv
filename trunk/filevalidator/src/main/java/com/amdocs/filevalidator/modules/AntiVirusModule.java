@@ -36,7 +36,7 @@ public class AntiVirusModule extends ModuleImpl {
 
 
 	@Override
-	public boolean validate(String filePath, String simpleFileName) {
+	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename) {
 		
 		String command = antiVirusPath + " " + filePath;
 		

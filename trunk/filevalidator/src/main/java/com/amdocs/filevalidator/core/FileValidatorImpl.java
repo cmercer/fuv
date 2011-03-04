@@ -66,7 +66,7 @@ public class FileValidatorImpl implements FileValidator {
 
 		for (Module module : config.getModules()) {
 			logger.debug("Validating module {}", module.getName());
-			if (!module.validate(file.getAbsolutePath(), file.getName())) { 
+			if (!module.validate(file.getAbsolutePath(), file.getName(), false)) { 
 				return false;
 			}
 		}	
@@ -210,12 +210,12 @@ public class FileValidatorImpl implements FileValidator {
 			File temporaryDir) throws IOException {
 
 		// create temporary file	
-		String tmpFileName = createTempFile(temporaryDir, gzIn, "tmpGzip");  // TODO Gzip entry name?!
+		String tmpFileName = createTempFile(temporaryDir, gzIn, "tmpGzip");
 		gzIn.close();
 
 		// check temporary file
 		File tempFile = new File(tmpFileName);		
-		if (isValidInnerFile(tempFile)) {
+		if (isValidInnerFile(tempFile, true)) {
 			return validateArchiveFiles(tempFile, depth+1, temporaryDir);											
 		} else {
 			return false;
@@ -234,12 +234,12 @@ public class FileValidatorImpl implements FileValidator {
 			File temporaryDir) throws IOException {
 		
 		// create temporary file	
-		String tmpFileName = createTempFile(temporaryDir, bzIn, "tmpBzip");  // TODO BZIP entry name?!
+		String tmpFileName = createTempFile(temporaryDir, bzIn, "tmpBzip"); 
 		bzIn.close();
 
 		// check temporary file
 		File tempFile = new File(tmpFileName);	
-		if (isValidInnerFile(tempFile)) {	 
+		if (isValidInnerFile(tempFile, true)) {	 
 			return validateArchiveFiles(tempFile, depth+1, temporaryDir);											
 		} else {
 			return false;
@@ -263,11 +263,11 @@ public class FileValidatorImpl implements FileValidator {
 			while (entry != null) {
 				String name = entry.getName();
 				logger.info("Entry: " + name + 
-						(entry.isDirectory() ? "(directory). Skipping..." : ""));
+						(entry.isDirectory() ? " (directory). Skipping..." : ""));
 				
 				if (entry.isDirectory()) {
 
-					(new File(temporaryDir + File.separator + name)).mkdirs(); // TODO check directory name?
+					(new File(temporaryDir + File.separator + name)).mkdirs();
 
 				} else {
 					SizeBoundedInputStream tis = 
@@ -278,7 +278,7 @@ public class FileValidatorImpl implements FileValidator {
 
 					// check temporary file
 					File tempFile = new File(tmpFileName);					
-					if (isValidInnerFile(tempFile)) {
+					if (isValidInnerFile(tempFile, false)) {
 						if (!validateArchiveFiles(tempFile, depth+1, temporaryDir)){
 							return false;
 						}
@@ -320,11 +320,11 @@ public class FileValidatorImpl implements FileValidator {
 			ZipEntry entry = zis.getNextEntry();
 			while (entry != null) {
 				String name = entry.getName();			
-				logger.info("Entry: " + name + (entry.isDirectory() ? "(directory). Skipping..." : ""));
+				logger.info("Entry: " + name + (entry.isDirectory() ? " (directory). Skipping..." : ""));
 
 				if (entry.isDirectory()) { 
 
-					(new File(temporaryDir + File.separator + name)).mkdirs(); // TODO check directory name?
+					(new File(temporaryDir + File.separator + name)).mkdirs();
 
 				} else {
 
@@ -333,7 +333,7 @@ public class FileValidatorImpl implements FileValidator {
 
 					// check temporary file
 					File tempFile = new File(tmpFileName);
-					if (isValidInnerFile(tempFile)) {					
+					if (isValidInnerFile(tempFile, false)) {					
 						if (!validateArchiveFiles(tempFile, depth+1, temporaryDir)){						
 							return false;
 						}
@@ -385,14 +385,15 @@ public class FileValidatorImpl implements FileValidator {
 
 	/**
 	 * @param tempFile the file to check
+	 * @param isGeneratedFilename true if the filename was generated and not the original
 	 */
-	private boolean isValidInnerFile(File tempFile) {
+	private boolean isValidInnerFile(File tempFile, boolean isGeneratedFilename) {
 
 		// iterate all modules with scanInnerFiles flag
 		for (Module module : config.getModules()) {
 			if (module.scanInnerFiles()) {
 				logger.debug("Validating module {}", module.getName());
-				if (!module.validate(tempFile.getAbsolutePath(), tempFile.getName())) { 
+				if (!module.validate(tempFile.getAbsolutePath(), tempFile.getName(), isGeneratedFilename)) { 
 					return false;
 				}
 			}
