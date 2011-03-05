@@ -96,9 +96,17 @@ public class FileTypeModule extends ModuleImpl {
 		// check if we accept this content type
 		if (this.allowedTypes.containsKey(contentType)) { 
 
-			return 	!extCheck || 
+			if (extCheck) { 
+				if (isGeneratedFilename) { 
+					return true;
+				} else { 
+					return 
 					( 	this.allowedTypes.get(contentType)==null ||   // null means we accept all extensions for this type 
 						this.allowedTypes.get(contentType).contains(FileNameUtils.extractFileExtension(simpleFileName).toLowerCase()) );
+				}
+			} else { 
+				return true;
+			}
 			
 		} else { 
 			return false;
