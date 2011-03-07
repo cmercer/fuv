@@ -10,8 +10,7 @@ public class FileNameUtils {
 	public static String extractFileExtension(String fileName) {
 		int dotInd = fileName.lastIndexOf('.');
 
-		return (dotInd > 0 && dotInd < fileName.length()) ? fileName
-				.substring(dotInd + 1) : null;
+		return (dotInd > 0 && dotInd < fileName.length()) ? fileName.substring(dotInd + 1) : "";
 	}
 	
 
