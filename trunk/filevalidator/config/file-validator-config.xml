@@ -1,94 +1,185 @@
 <file-validator-config>
 
 	<application-name>Test</application-name>
-	
+
 	<!-- Starting from 0 (0 = archive/compressed file are not allowed) -->
 	<archive-recursion-depth>7</archive-recursion-depth>
-	
+
 	<modules>
-	
+
 		<!-- File name module -->
 		<file-name-module>
 			<max-file-name-length>50</max-file-name-length>
-			<allowedCharStrips>D C O</allowedCharStrips>						
+			<allowedCharStrips>D C O</allowedCharStrips>
 		</file-name-module>
-		
+
 		<!-- Anti Virus module -->
 		<anti-virus-module scanInnerFiles="false">
 			<anti-virus-path>bin/av_wrapper.sh</anti-virus-path>
-			<success-rc>0</success-rc>									
+			<success-rc>0</success-rc>
 		</anti-virus-module>
-		
+
 		<!-- File type module -->
 		<file-type-module>
-			<allowed-types>word jpg application/x-gzip application/x-gtar application/zip text/plain application/x-bzip2</allowed-types>
-			<force-ext-check/>
+			<allowed-types>word images application/x-gzip application/x-gtar
+				application/zip text/plain application/x-bzip2</allowed-types>
+			<force-ext-check />
 		</file-type-module>
 
-		<!-- File permissions module-->	
-		<unix-file-permissions-module scanInnerFiles="false">
+		<!-- File permissions module -->
+		<unix-file-permissions-module
+			scanInnerFiles="false">
 			<user-max-permissions>rwx</user-max-permissions>
 			<group-max-permissions>r-x</group-max-permissions>
 			<all-max-permissions>r-x</all-max-permissions>
 		</unix-file-permissions-module>
-		
-						
+
+
 	</modules>
-	
+
 	<file-name-generator>
-		
+
 		<!-- Censor method -->
 		<max-file-name-length>30</max-file-name-length>
 		<charStripsToKeep>C O</charStripsToKeep>
-						
+
 		<!-- Generation method -->
 		<name-pattern>
-			<part><strip>C</strip><length>10</length></part>
-			<part><strip>D</strip><length>2</length></part>
-		</name-pattern>		
+			<part>
+				<strip>C</strip>
+				<length>10</length>
+			</part>
+			<part>
+				<strip>D</strip>
+				<length>2</length>
+			</part>
+		</name-pattern>
 	</file-name-generator>
-	
-	
+
+
 	<max-file-size>15</max-file-size>
-	
+
 	<char-strips>
-	
+
 		<!-- Digits -->
 		<char-strip stripKey="D">
 			<strip>0123456789</strip>
 		</char-strip>
-		
+
 		<!-- Characters -->
 		<char-strip stripKey="C">
-			<strip>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</strip>		
+			<strip>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</strip>
 		</char-strip>
-		
+
 		<!-- Others -->
 		<char-strip stripKey="O">
-			<strip>_-)(</strip>		
+			<strip>_-)(.</strip>
 		</char-strip>
-		
+
 	</char-strips>
-	
-	
-	<!--  TODO - once we have a set of files we should run them through 'tika' and create real types collections -->
-	<!--  TODO : what happens if some type (for example 'application/x-tika/ooxml') appears in a couple of different collections with different exts? -->
+
+
+	<!-- Types Collections
+	     ================= -->
 	<types-collections>
+	
+		<!-- Microsoft Office 
+		     ================ -->
 		<types-collection name="word">
-			<type allowed-exts="doc">application/msword</type>
 			<type allowed-exts="doc">application/x-tika-msoffice</type>
+			<type allowed-exts="doc">application/msword</type>
+			<type allowed-exts="dotx,docx">application/x-tika-ooxml</type>
 			<type allowed-exts="docx">application/vnd.openxmlformats-officedocument.wordprocessingml.document</type>
-			<type allowed-exts="docx">application/x-tika-ooxml</type>
+			<type allowed-exts="dotx">application/vnd.openxmlformats-officedocument.wordprocessingml.template</type>
 		</types-collection>
 
+		<types-collection name="excel">
+			<type allowed-exts="xlsx">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</type>
+			<type allowed-exts="xlsb">application/vnd.ms-excel.sheet.binary.macroenabled.12</type>
+			<type allowed-exts="xls">application/vnd.ms-excel</type>
+			<type allowed-exts="xlsx,xlsm,xlsb">application/x-tika-ooxml</type>
+			<type allowed-exts="xlsm">application/vnd.ms-excel.sheet.macroenabled.12</type>
+		</types-collection>
+
+		<types-collection name="powerpoint">
+			<type allowed-exts="ppt">application/x-tika-msoffice</type>
+			<type allowed-exts="pptx">application/vnd.openxmlformats-officedocument.presentationml.presentation</type>
+			<type allowed-exts="ppt">application/vnd.ms-powerpoint</type>
+			<type allowed-exts="pptm">application/vnd.ms-powerpoint.presentation.macroenabled.12</type>
+			<type allowed-exts="ppsx">application/vnd.openxmlformats-officedocument.presentationml.slideshow</type>
+			<type allowed-exts="pptx,ppsx,pptm">application/x-tika-ooxml</type>
+		</types-collection>
+		
+		<types-collection name="visio">
+			<type allowed-exts="vst,vsd,vss">application/x-tika-msoffice</type>
+			<type allowed-exts="vdx,vtx,vsx">application/xml</type>
+			<type allowed-exts="vst,vsd,vss">application/vnd.visio</type>
+		</types-collection>
+		
+		<types-collection name="msproject">
+			<type allowed-exts="mpp">application/x-tika-msoffice</type>
+		</types-collection>
+		
+		<types-collection name="outlook">
+			<type allowed-exts="msg">application/x-tika-msoffice</type>
+			<type allowed-exts="msg">application/vnd.ms-outlook</type>
+		</types-collection>
+		
+		
+		<!--  Archives & Compressed files 
+		      =========================== -->
+
+		<types-collection name="compressed">
+			<type allowed-exts="gz">application/x-gzip</type>
+			<type allowed-exts="bz2">application/x-bzip2</type>
+			<type allowed-exts="bz2">application/x-bzip</type>
+		</types-collection>
+
+		<types-collection name="archives">
+			<type allowed-exts="tar">application/x-gtar</type>
+			<type allowed-exts="zip">application/zip</type>
+		</types-collection>
+
+		
+		<!-- Media files 
+		     =========== -->
+		<types-collection name="audio">
+			<type allowed-exts="wav">audio/x-wav</type>
+			<type allowed-exts="mp3">audio/mpeg</type>
+		</types-collection>
+
+		<types-collection name="images">
+			<type allowed-exts="jpg,jpeg">image/jpeg</type>
+			<type allowed-exts="gif">image/gif</type>
+			<type allowed-exts="png">image/png</type>
+			<type allowed-exts="bmp">image/x-ms-bmp</type>
+			<type allowed-exts="tiff">image/tiff</type>
+		</types-collection>
+
+		<types-collection name="movies">
+			<type allowed-exts="avi">video/x-msvideo</type>
+			<type allowed-exts="mkv">application/octet-stream</type>
+			<type allowed-exts="mp4">video/quicktime</type>
+			<type allowed-exts="wmv">application/octet-stream</type>
+			<type allowed-exts="wmv">video/x-ms-wmv</type>
+		</types-collection>
+
+
+		<!-- Others
+		     ====== -->
+		<types-collection name="text">
+			<type allowed-exts="rtf">application/rtf</type>
+			<type allowed-exts="txt">text/plain</type>
+		</types-collection>
+		
+		<types-collection name="html">
+			<type allowed-exts="htm,html">text/html</type>
+		</types-collection>
+		
 		<types-collection name="pdf">
 			<type allowed-exts="pdf">application/pdf</type>
 		</types-collection>
 		
-		<types-collection name="JPG">
-			<type allowed-exts="jpg,JPEG">image/jpeg</type>
-		</types-collection>
-		
 	</types-collections>
-	
+
 </file-validator-config>

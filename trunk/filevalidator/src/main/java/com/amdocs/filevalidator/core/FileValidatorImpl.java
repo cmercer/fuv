@@ -98,7 +98,10 @@ public class FileValidatorImpl implements FileValidator {
 	 */
 	private boolean validateArchiveFiles(File file, int depth, File temporaryDir) 
 	throws IOException {
-
+		
+		// TODO : call tika to make sure that the file is one of the known zip types.
+		// problematic file : a1.docx (the inner file was opened as a zip).
+		
 		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));		 		
 		try {			
 			ArchiveInputStream input = new ArchiveStreamFactory().createArchiveInputStream(bis);
@@ -435,6 +438,9 @@ public class FileValidatorImpl implements FileValidator {
 	}
 
 
+	
+	
+	
 	@Override
 	public FileNameGenerator getFileNameGenerator(){
 		return config.getFileNameGenerator();

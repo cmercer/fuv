@@ -47,7 +47,7 @@ public class Test {
 			if (module instanceof UnixFilePermissionsModule) { 
 				for (int i=1 ; i<6 ; i++) {
 					File f = new File("/tmp/file" + i);
-					boolean res = module.validate(f.getAbsolutePath(), f.getName());
+					boolean res = module.validate(f.getAbsolutePath(), f.getName(), true);
 					System.out.println(f.getName() + " = " + res);
 				}
 				
