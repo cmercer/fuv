@@ -1,5 +1,7 @@
 package com.amdocs.filevalidator.modules;
 
+import java.io.File;
+
 
 /**
  * General interface for a module in the system
@@ -9,11 +11,10 @@ package com.amdocs.filevalidator.modules;
 public interface Module {
 
 	/** Validate an input stream 
-	 * @param filePath full path and name of the file
-	 * @param simpleFileName only the name of the file 
+	 * @param file TODO
 	 * @param isGeneratedFilename true if the simple file name was generated (and it's not the original one)
 	 * */
-	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename);
+	public boolean validate(File file, boolean isGeneratedFilename);
 	
 	/** Return a unique name for the module */
 	public String getName();

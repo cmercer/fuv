@@ -3,7 +3,7 @@
 	<application-name>Test</application-name>
 
 	<!-- Starting from 0 (0 = archive/compressed file are not allowed) -->
-	<archive-recursion-depth>7</archive-recursion-depth>
+	<archive-recursion-depth>5</archive-recursion-depth>
 
 	<modules>
 
@@ -21,8 +21,7 @@
 
 		<!-- File type module -->
 		<file-type-module>
-			<allowed-types>word images application/x-gzip application/x-gtar
-				application/zip text/plain application/x-bzip2</allowed-types>
+			<allowed-types>archives compressed text</allowed-types>
 			<force-ext-check />
 		</file-type-module>
 
@@ -33,8 +32,6 @@
 			<group-max-permissions>r-x</group-max-permissions>
 			<all-max-permissions>r-x</all-max-permissions>
 		</unix-file-permissions-module>
-
-
 	</modules>
 
 	<file-name-generator>
@@ -180,6 +177,9 @@
 			<type allowed-exts="pdf">application/pdf</type>
 		</types-collection>
 		
+		<types-collection name="xml">
+			<type allowed-exts="xml">application/xml</type>
+		</types-collection>
 	</types-collections>
 
 </file-validator-config>

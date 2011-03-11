@@ -18,6 +18,15 @@ public class CharStrip {
 	@XmlElement(name="strip")
 	private String strip;
 
+	
+	@SuppressWarnings("unused")  // needed for JAXB
+	private CharStrip(){}
+	
+	public CharStrip(String key, String strip) {
+		this.key = key;
+		this.strip = strip;
+	}
+
 	public String getKey() {
 		return key;
 	}

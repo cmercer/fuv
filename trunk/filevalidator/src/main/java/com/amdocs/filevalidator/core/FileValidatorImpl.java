@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -29,6 +31,7 @@ import com.amdocs.filevalidator.config.ConfigManager;
 import com.amdocs.filevalidator.modules.Module;
 import com.amdocs.filevalidator.securityutilities.FileNameGenerator;
 import com.amdocs.filevalidator.securityutilities.SizeBoundedInputStream;
+import com.amdocs.filevalidator.utils.TikaUtils;
 
 /**
  * FUV implementation of the FileValidator
@@ -58,15 +61,24 @@ public class FileValidatorImpl implements FileValidator {
 	}
 
 
+	/**
+	 * Validates a file
+	 */
+	@Override
 	public boolean validate(File file) throws IOException {
 
 		logger.info("Validating file : {}", file.getAbsolutePath());
 
+		if (!file.isFile() || !file.exists() || !file.canRead()) { 
+			logger.warn("File " + file.getAbsolutePath() + " doesn't exist or not accessible");
+			throw new IllegalArgumentException("File doesn't exist or not accessible");
+		}
+		
 		// iterate all modules
 
 		for (Module module : config.getModules()) {
 			logger.debug("Validating module {}", module.getName());
-			if (!module.validate(file.getAbsolutePath(), file.getName(), false)) { 
+			if (!module.validate(file, false)) { 
 				return false;
 			}
 		}	
@@ -96,11 +108,16 @@ public class FileValidatorImpl implements FileValidator {
 	 * @return true if file is valid
 	 * @throws IOException
 	 */
-	private boolean validateArchiveFiles(File file, int depth, File temporaryDir) 
-	throws IOException {
+	private static List<String> ARCHIVE_CONTENT_TYPES = Arrays.asList(
+		"application/x-gzip", "application/x-bzip", "application/x-bzip2", "application/x-bzip", "application/x-gtar", "application/zip"
+	);
+	private boolean validateArchiveFiles(File file, int depth, File temporaryDir) throws IOException {
 		
-		// TODO : call tika to make sure that the file is one of the known zip types.
-		// problematic file : a1.docx (the inner file was opened as a zip).
+		// get the tika content-type to determine if it's an archive or not.
+		// notice that new office files are archives but we don't want to open them.
+		String contentType = TikaUtils.getTikaContentType(file);
+		logger.debug("content type from tika - " + contentType);
+		if (contentType==null || !ARCHIVE_CONTENT_TYPES.contains(contentType)) return true;
 		
 		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));		 		
 		try {			
@@ -110,11 +127,11 @@ public class FileValidatorImpl implements FileValidator {
 
 				// ZIP
 
-				logger.info("Found ZIP file");
+				logger.debug("Found ZIP file");
 
 				// file has more levels than allowed
 				if (depth >= config.getArchiveRecDepth()){
-					logger.warn("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
+					logger.info("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
 					input.close();
 					return false;
 				}
@@ -129,11 +146,11 @@ public class FileValidatorImpl implements FileValidator {
 
 				// TAR
 
-				logger.info("Found TAR file");	
+				logger.debug("Found TAR file");	
 
 				// file has more levels than allowed
 				if (depth >= config.getArchiveRecDepth()){
-					logger.warn("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
+					logger.info("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
 					input.close();
 					return false;
 				}
@@ -141,7 +158,7 @@ public class FileValidatorImpl implements FileValidator {
 				return isValidTarFile(depth, (TarArchiveInputStream)input, temporaryDir);
 
 			} else {
-				logger.warn("AR/JAR/CPIO Archives files are not supported. Ignoring...");
+				logger.info("AR/JAR/CPIO Archives files are not supported. Ignoring...");
 				input.close();
 				return true;
 			}			
@@ -160,11 +177,10 @@ public class FileValidatorImpl implements FileValidator {
 				bis.reset();
 			} 
 			if (bzIn != null) {
-				logger.info("Found BZIP2 file");
-
+				logger.debug("Found BZIP2 file");
 				// file has more levels than allowed
 				if (depth >= config.getArchiveRecDepth()){
-					logger.warn("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
+					logger.info("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
 					bzIn.close();
 					return false;
 				}
@@ -183,11 +199,11 @@ public class FileValidatorImpl implements FileValidator {
 				bis.reset();
 			}
 			if (gzIn != null) {
-				logger.info("Found GZIP file");
+				logger.debug("Found GZIP file");
 
 				// file has more levels than allowed
 				if (depth >= config.getArchiveRecDepth()){
-					logger.warn("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
+					logger.info("file has more levels (" + (depth+1) + ") than allowed (" + config.getArchiveRecDepth() + ")");
 					gzIn.close();
 					return false;
 				}
@@ -396,7 +412,7 @@ public class FileValidatorImpl implements FileValidator {
 		for (Module module : config.getModules()) {
 			if (module.scanInnerFiles()) {
 				logger.debug("Validating module {}", module.getName());
-				if (!module.validate(tempFile.getAbsolutePath(), tempFile.getName(), isGeneratedFilename)) { 
+				if (!module.validate(tempFile, isGeneratedFilename)) { 
 					return false;
 				}
 			}

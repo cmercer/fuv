@@ -1,76 +1,93 @@
 package com.amdocs.filevalidator.modules;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
-import java.io.IOException;
+import java.io.StringReader;
+import java.util.Arrays;
 
-import junit.framework.TestCase;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.amdocs.filevalidator.config.ConfigManager;
-import com.amdocs.filevalidator.core.FileValidator;
-import com.amdocs.filevalidator.core.FileValidatorImpl;
+import com.amdocs.filevalidator.config.CharStrip;
 
 /**
  * Tests for the file name module
  * @author zach, rotem
  *
  */
-public class FileNameModuleTester extends TestCase {
+public class FileNameModuleTester {
 	
-	protected FileValidator fv;
-	protected FileNameModule module;
+	private static String tempDir = System.getProperty("java.io.tmpdir");
 	
-	@Before
-	protected void setUp() {
+	private static FileNameModule moduleMax50AllowedDCO;
+	private static String MAX_50_ALLOWED_DCO_STR = "<file-name-module><max-file-name-length>50</max-file-name-length><allowedCharStrips>D C O</allowedCharStrips></file-name-module>";
+	private static FileNameModule moduleMax5AllowedDCO;
+	private static String MAX_5_ALLOWED_DCO_STR = "<file-name-module><max-file-name-length>5</max-file-name-length><allowedCharStrips>D C O</allowedCharStrips></file-name-module>";
+	private static FileNameModule moduleMax50AllowedD;
+	private static String MAX_50_ALLOWED_D_STR = "<file-name-module><max-file-name-length>50</max-file-name-length><allowedCharStrips>D</allowedCharStrips></file-name-module>";
+	
+	
+	@BeforeClass
+	public static void init() throws Exception {
+		CharStrip stripD = new CharStrip("D", "0123456789");
+		CharStrip stripC = new CharStrip("C", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+		CharStrip stripO = new CharStrip("O", "_-)(.");
 		
-		fv = FileValidatorImpl.getInstance();
+		JAXBContext jc = JAXBContext.newInstance(FileNameModule.class);
+		Unmarshaller um = jc.createUnmarshaller();
 		
-		for (ModuleImpl m : ConfigManager.getInstance().getConfigBean().getModules()) {
-			if (m instanceof FileNameModule) {
-				module = (FileNameModule)m;
-				break;
-			}
-		}
+		moduleMax50AllowedDCO = (FileNameModule)um.unmarshal(new StringReader(MAX_50_ALLOWED_DCO_STR));
+		moduleMax5AllowedDCO = (FileNameModule)um.unmarshal(new StringReader(MAX_5_ALLOWED_DCO_STR));
+		moduleMax50AllowedD = (FileNameModule)um.unmarshal(new StringReader(MAX_50_ALLOWED_D_STR));
 		
-		if (module == null) {
-			fail("There is no file name module in the validator");
-		}
+		// inject the strips
+		moduleMax50AllowedDCO.getAllowedCharStrips().addAll(Arrays.asList(stripD, stripC, stripO));
+		moduleMax5AllowedDCO.getAllowedCharStrips().addAll(Arrays.asList(stripD, stripC, stripO));
+		moduleMax50AllowedD.getAllowedCharStrips().add(stripD);
 		
-		// put the file name module as the only module
-		ConfigManager.getInstance().getConfigBean().getModules().clear();
-		ConfigManager.getInstance().getConfigBean().getModules().add(module);
+		
 	}
 
 	@Test
 	public void testScanInnerFiles() {		
-		assertTrue("Module should check inner files", module.scanInnerFiles());
+		assertTrue("Module should check inner files", moduleMax50AllowedDCO.scanInnerFiles()); // default value
+		assertTrue("Module should check inner files", moduleMax5AllowedDCO.scanInnerFiles()); // default value
+		assertTrue("Module should check inner files", moduleMax50AllowedD.scanInnerFiles()); // default value
 	}
 
 	@Test
-	public void testValidate() {
+	public void testModuleMax50AllowedDCO() throws Exception {
 
-		try {
-			File f1 = File.createTempFile("abc", "abc");
-			assertTrue("short name without extension should pass", fv.validate(f1));			
-			
-			File f2 = File.createTempFile("def", "abc.doc");
-			assertTrue("short name with extension should pass", fv.validate(f2));
-			
-			File f3 = File.createTempFile("abcdefghijklmnopqrstuvwxyz123456789012345678901234567801234567890", "abc");
-			assertFalse("long name without extension should fail", fv.validate(f3));			
-			
-			File f4 = File.createTempFile("def123457890_a-fr(de)", "abc.doc");
-			assertTrue("name with valid chars should pass", fv.validate(f4));
-			
-			File f5 = File.createTempFile("abcd4567890^sdsadsfd", "abc");
-			assertFalse("name with invalid chars should fail", fv.validate(f5));
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail("IOException:" + e.getMessage());			
-		}		
+		assertTrue("short name without extension should pass", moduleMax50AllowedDCO.validate(new File(tempDir,"abc.abc"), false));			
+		assertTrue("short name with extension should pass", moduleMax50AllowedDCO.validate(new File(tempDir,"def.abc.doc"), false));
+		assertFalse("long name without extension should fail", moduleMax50AllowedDCO.validate(new File(tempDir,"abcdefghijklmnopqrstuvwxyz123456789012345678901234567801234567890"), false));			
+		assertTrue("name with valid chars should pass", moduleMax50AllowedDCO.validate(new File(tempDir,"def123457890_a-fr(de).doc"), false));
+		assertFalse("name with invalid chars should fail", moduleMax50AllowedDCO.validate(new File(tempDir,"abcd4567890^sdsadsfd.dbc"), false));
+	}
+	
+	@Test
+	public void testModuleMax5AllowedDCO() throws Exception { 
+		assertTrue("short name without extension should pass", moduleMax5AllowedDCO.validate(new File(tempDir,"abc.abc"), false));			
+		assertTrue("short name with extension should pass", moduleMax5AllowedDCO.validate(new File(tempDir,"d.a.doc"), false));
+		assertFalse("long name without extension should fail", moduleMax5AllowedDCO.validate(new File(tempDir,"abcdefghijklmnopqrstuvwxyz123456789012345678901234567801234567890"), false));			
+		assertFalse("name with valid chars should fail (too long)", moduleMax5AllowedDCO.validate(new File(tempDir,"def123457890_a-fr(de).doc"), false));
+		assertFalse("name with invalid chars should fail", moduleMax5AllowedDCO.validate(new File(tempDir,"abcd4567890^sdsadsfd.abc"), false));
+	}
+	
+	@Test
+	public void testModuleMax50AllowedD() throws Exception {
+		assertTrue("short name without extension should pass", moduleMax50AllowedD.validate(new File(tempDir,"123"), false));			
+		assertTrue("short name with extension should pass", moduleMax50AllowedD.validate(new File(tempDir,"123.abc"), false));
+		assertFalse("contains chracters", moduleMax50AllowedD.validate(new File(tempDir,"def.abc.doc"), false));
+		assertFalse("double extention. should remove only the 2'nd ext", moduleMax50AllowedD.validate(new File(tempDir,"123.abc.doc"), false));
+		assertFalse("long name (chars) should fail", moduleMax50AllowedD.validate(new File(tempDir,"abcdefghijklmnopqrstuvwxyz123456789012345678901234567801234567890"), false));		
+		assertFalse("long name (digits) should fail", moduleMax50AllowedD.validate(new File(tempDir,"123456789012345678901234567801234567890123456789012345678901234567801234567890"), false));
+		assertFalse("name with invalid chars should fail", moduleMax50AllowedD.validate(new File(tempDir,"a4567890.ext"), false));
 	}
 
 }

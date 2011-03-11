@@ -1,13 +1,5 @@
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.apache.tika.sax.BodyContentHandler;
-import org.apache.tika.sax.ContentHandlerDecorator;
 
 import com.amdocs.filevalidator.core.FileValidator;
 import com.amdocs.filevalidator.core.FileValidatorImpl;

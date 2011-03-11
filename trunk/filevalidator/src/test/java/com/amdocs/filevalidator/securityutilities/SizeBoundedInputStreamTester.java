@@ -32,34 +32,26 @@ public class SizeBoundedInputStreamTester extends TestCase {
 			FileWriter writer = new FileWriter(f1);
 			writer.append("abcdefghij");		
 			writer.close();
-			System.out.println("File size:" + f1.length());
 
 			// valid file
 			SizeBoundedInputStream is = new SizeBoundedInputStream(new FileInputStream(f1));
-			int c;
 			int count = 0;
-			while ((c=is.read()) >=0) {
+			while (is.read() >=0) {
 				count++;
-				System.out.print((char)c);
 			}
 			assertFalse(is.hasReachedLimit());
 			is.close();
-			System.out.println();
-			System.out.println("SizeBoundedInputStream. File size:" + count);
 
 
 			// valid file with buffered input stream
 			is = new SizeBoundedInputStream(new FileInputStream(f1));
 			BufferedInputStream is2 = new BufferedInputStream(is);
 			count = 0;
-			while ((c=is2.read()) >=0) {
-				System.out.print((char)c);
+			while (is2.read() >=0) {
 				count++;
 			}
 			assertFalse(is.hasReachedLimit());
 			is2.close();
-			System.out.println();
-			System.out.println("BufferedInputStream. File size:" + count);
 
 			f1.delete();
 
@@ -80,7 +72,6 @@ public class SizeBoundedInputStreamTester extends TestCase {
 		try {
 			
 			int count;
-			int c;
 			SizeBoundedInputStream is = null;
 			BufferedInputStream is2 = null;
 			
@@ -88,13 +79,12 @@ public class SizeBoundedInputStreamTester extends TestCase {
 			FileWriter writer = new FileWriter(f1);				
 			writer.append("abcdefghijklmnopqrstuvwxyz");
 			writer.close();
-			System.out.println("File size:" + f1.length());
 
 
 			// big file. Exception is thrown after 15 chars
 			is = new SizeBoundedInputStream(new FileInputStream(f1));
 			count = 0;			
-			while ((c=is.read()) >=0) {
+			while (is.read() >=0) {
 				count++;
 			}						
 			assertEquals(count, 15);
@@ -107,7 +97,7 @@ public class SizeBoundedInputStreamTester extends TestCase {
 			is = new SizeBoundedInputStream(new FileInputStream(f1));
 			is2 = new BufferedInputStream(is);
 			count = 0;			
-			while ((c=is2.read()) >=0) {	
+			while (is2.read() >=0) {	
 				count++;
 			}
 			assertEquals(count, 15);
