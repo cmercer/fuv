@@ -6,7 +6,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class FileValidatorImplTester {
+public class FileValidatorImplTest {
 
 	private static final String MULTIPLE_ZIP_TEST_FILE = "src/test/resources/tar_with_dir.tar.gz";
 	private static final String XML_TEST_FILE = "src/test/resources/example.xml";

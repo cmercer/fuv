@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author zach, rotem
  *
  */
-public class SizeBoundedInputStreamTester extends TestCase {
+public class SizeBoundedInputStreamTest extends TestCase {
 
 	@Before
 	public void setUp() throws Exception {
