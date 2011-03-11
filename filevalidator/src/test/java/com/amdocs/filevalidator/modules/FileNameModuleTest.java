@@ -20,7 +20,7 @@ import com.amdocs.filevalidator.config.CharStrip;
  * @author zach, rotem
  *
  */
-public class FileNameModuleTester {
+public class FileNameModuleTest {
 	
 	private static String tempDir = System.getProperty("java.io.tmpdir");
 	

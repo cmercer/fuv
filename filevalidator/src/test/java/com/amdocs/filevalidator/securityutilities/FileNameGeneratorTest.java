@@ -10,7 +10,7 @@ import com.amdocs.filevalidator.core.FileValidator;
 import com.amdocs.filevalidator.core.FileValidatorImpl;
 import com.amdocs.filevalidator.exceptions.FilenameGenerationException;
 
-public class FileNameGeneratorTester extends TestCase{
+public class FileNameGeneratorTest extends TestCase{
 	
 	protected FileValidator fv;
 
