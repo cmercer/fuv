@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.amdocs.filevalidator.config.CharStrip;
 import com.amdocs.filevalidator.exceptions.FilenameGenerationException;
+import com.amdocs.filevalidator.utils.FileNameUtils;
 
 
 /**
@@ -85,13 +86,12 @@ public class FileNameGenerator {
 	public String censorFilename(String fileName) throws FilenameGenerationException{
 
 		
-		// remove extension (if exists)
-		String extension = "";
-		int extensionIndex = fileName.lastIndexOf('.');
-		if (extensionIndex >= 0) {
-			extension = fileName.substring(extensionIndex);
-			fileName = fileName.substring(0, extensionIndex);
-		}	
+		// split to filename and extension 
+		String extension = FileNameUtils.extractFileExtension(fileName);
+		if (!extension.isEmpty()) { 
+			extension = "." + extension;
+		}
+		fileName = FileNameUtils.removeExtension(fileName);
 		
 		// create one united allowed strip	
 		if (allowedStrip == null) {

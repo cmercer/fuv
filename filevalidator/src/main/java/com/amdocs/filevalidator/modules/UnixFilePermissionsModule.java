@@ -53,15 +53,14 @@ public class UnixFilePermissionsModule extends ModuleImpl {
 	
 	
 	@Override
-	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename) {
+	public boolean validate(File file, boolean isGeneratedFilename) {
 		
 		if (this.allowedPerms == null) initializePerms();
 		
-		File file = new File(filePath);
-		
 		UnixFilePermissions filePermissions = new UnixFilePermissions(file);
 		
-		if (this.allowedPerms.compareTo(filePermissions) == 1) { 
+		if (this.allowedPerms.compareTo(filePermissions) == 1) {
+			logger.info("given file doesn't match the required UNIX permissions");
 			return false;
 		} else { 
 			return true;

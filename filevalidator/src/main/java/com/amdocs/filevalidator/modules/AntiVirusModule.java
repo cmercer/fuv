@@ -1,5 +1,6 @@
 package com.amdocs.filevalidator.modules;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.tika.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +38,9 @@ public class AntiVirusModule extends ModuleImpl {
 
 
 	@Override
-	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename) {
+	public boolean validate(File file, boolean isGeneratedFilename) {
 		
-		String command = antiVirusPath + " " + filePath;
+		String command = antiVirusPath + " " + file.getAbsolutePath();
 		
 		Runtime run = Runtime.getRuntime();		
 		try {
@@ -50,7 +52,11 @@ public class AntiVirusModule extends ModuleImpl {
 			logger.debug("AntiVirus rc: " + rc);
 			
 			if (rc != successRC) {
-				logger.error("Exit code from AntiVirus: " + rc);
+				String stdout = IOUtils.toString(proc.getInputStream());
+				String stderr = IOUtils.toString(proc.getErrorStream());
+				logger.info("AntiVirus failed. Exit code=" + rc);
+				logger.info("AntiVirus STDOUT : " + stdout);
+				logger.info("AntiVirus STDERR : " + stderr);
 				return false;
 			}
 			

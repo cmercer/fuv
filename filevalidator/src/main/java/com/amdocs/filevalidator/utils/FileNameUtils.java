@@ -14,5 +14,16 @@ public class FileNameUtils {
 	}
 	
 
+	/**
+	 * Returns the filename with out extension.
+	 */
+	public static String removeExtension(String fileName) { 
+		// remove extension (if exists)
+		int extension = fileName.lastIndexOf('.');
+		if (extension >= 0) {
+			return fileName.substring(0, extension);
+		}		
+		return fileName;
+	}
 	
 }

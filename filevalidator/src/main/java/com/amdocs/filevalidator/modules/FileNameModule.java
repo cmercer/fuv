@@ -1,5 +1,6 @@
 package com.amdocs.filevalidator.modules;
 
+import java.io.File;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.amdocs.filevalidator.config.CharStrip;
+import com.amdocs.filevalidator.utils.FileNameUtils;
 
 
 /**
@@ -43,8 +45,13 @@ public class FileNameModule extends ModuleImpl {
 	@XmlTransient
 	private String allowedStrip;
 
+	public List<CharStrip> getAllowedCharStrips() {
+		return this.allowedCharStrips;
+	}
+	
 	@Override
-	public boolean validate(String filePath, String simpleFileName, boolean isGeneratedFilename) {
+	public boolean validate(File file, boolean isGeneratedFilename) {
+		String simpleFileName = file.getName();
 		
 		if (isGeneratedFilename) {
 			logger.info("Skipping filename validation for generated filename");
@@ -52,15 +59,12 @@ public class FileNameModule extends ModuleImpl {
 		}
 		
 		// remove extension (if exists)
-		int extension = simpleFileName.lastIndexOf('.');
-		if (extension >= 0) {
-			simpleFileName = simpleFileName.substring(0, extension);
-		}
+		simpleFileName = FileNameUtils.removeExtension(simpleFileName);
 		
 		// check file length
 		logger.debug("File name length (excluding extension) is " + simpleFileName.length() +". Maximum length allowed: " + maxFileNameLength);
 		if (simpleFileName.length() > maxFileNameLength) {
-			logger.error("File name length is " + simpleFileName.length() +". Maximum length allowed: " + maxFileNameLength);
+			logger.info("File name length is " + simpleFileName.length() +". Maximum length allowed: " + maxFileNameLength);
 			return false;
 		}
 		
@@ -82,7 +86,7 @@ public class FileNameModule extends ModuleImpl {
 		char[] chars = simpleFileName.toCharArray();		
 		for (Character c : chars) {
 			if (!allowedStrip.contains(String.valueOf(c))) {
-				logger.error("Invalid char in file name: " + c +". Allowed chars: " + allowedStrip);
+				logger.info("Invalid char in file name: " + c +". Allowed chars: " + allowedStrip);
 				return false;			
 			}
 		}		
