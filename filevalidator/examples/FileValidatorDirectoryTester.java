@@ -36,7 +36,7 @@ public class FileValidatorDirectoryTester {
 		System.out.println("===================================================");
 		
 		for (File file : dir.listFiles()) { 
-			boolean isValid = validate(fuv, file);
+			validate(fuv, file);
 		}
 	}
 
