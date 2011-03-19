@@ -46,7 +46,7 @@ public class UnixFilePermissionsModule extends ModuleImpl {
 	
 	public UnixFilePermissionsModule() { 
 		// verify that we run on a unix-based system
-		if (File.listRoots().length!=1 || !File.listRoots()[0].equals("/")) { 
+		if (File.listRoots().length!=1 || !File.listRoots()[0].getAbsolutePath().equals("/")) { 
 			logger.warn("You have enabled UnixFilePermissions module but seem to run under a non-Unix system. /bin/ls is required for this module");
 		}
 	}
