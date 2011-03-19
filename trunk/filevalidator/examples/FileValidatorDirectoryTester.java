@@ -23,24 +23,31 @@ public class FileValidatorDirectoryTester {
 			System.exit(-1);
 		}
 		
-		if (!dir.isDirectory()) { 
-			System.err.println("Directory " + dir.getAbsolutePath() + " is not a directory");
-			System.exit(-1);
-		}
-		
+
 		FileValidator fuv = FileValidatorImpl.getInstance();
+		
+		if (!dir.isDirectory()) { 
+			File f = dir;
+			validate(fuv, f);
+			System.exit(0);
+		}
 				
 		System.out.println("Testing directory " + dir.getAbsolutePath());
 		System.out.println("===================================================");
 		
 		for (File file : dir.listFiles()) { 
-			boolean isValid;
-			try {
-				isValid = fuv.validate(file);
-				System.out.println(file.getName()+ " is " + (isValid?"":"NOT ") + "valid");
-			} catch (IOException e) {
-				System.err.println("Error while validating " + file.getName() + ". " + e.getMessage());
-			}
+			boolean isValid = validate(fuv, file);
+		}
+	}
+
+	private static boolean validate(FileValidator fuv, File file) {
+		try {
+			boolean isValid = fuv.validate(file);
+			System.out.println(file.getName()+ " is " + (isValid?"":"NOT ") + "valid");
+			return isValid;
+		} catch (IOException e) {
+			System.err.println("Error while validating " + file.getName() + ". " + e.getMessage());
+			return false;
 		}
 	}
 
